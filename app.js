@@ -299,24 +299,8 @@ function victory(message) {
 
 // Service Worker registration
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
-        const CACHE_NAME = 'hammurabi-v1';
-        const urlsToCache = ['./'];
-
-        self.addEventListener('install', event => {
-            event.waitUntil(
-                caches.open(CACHE_NAME)
-                .then(cache => cache.addAll(urlsToCache))
-            );
-        });
-
-        self.addEventListener('fetch', event => {
-            event.respondWith(
-                caches.match(event.request)
-                .then(response => response || fetch(event.request))
-            );
-        });
-    `)).catch(err => console.log('Service worker registration failed'));
+    navigator.serviceWorker.register('sw.js')
+        .catch(err => console.log('Service worker registration failed', err));
 }
 
 // Initialize game when DOM is ready
